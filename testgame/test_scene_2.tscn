@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://crf3cn2qhkeu7"]
+
+[ext_resource type="Script" path="res://testgame/test_scene_2.gd" id="1_nr1t2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uh20g"]
+
+[node name="TestScene2" type="Node2D"]
+script = ExtResource("1_nr1t2")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1201.0
+offset_bottom = 675.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_uh20g")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 784.0
+offset_top = 287.0
+offset_right = 1093.0
+offset_bottom = 385.0
+text = "Got back to scene 1"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

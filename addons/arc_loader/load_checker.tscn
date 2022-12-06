@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bo72i7dpk685v"]
+
+[ext_resource type="Script" path="res://addons/arc_loader/load_checker.gd" id="1_ej75a"]
+
+[node name="LoadChecker" type="Node2D"]
+script = ExtResource("1_ej75a")

@@ -1,0 +1,7 @@
+extends CanvasModulate
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "FadeOut":
+		get_parent().queue_free()
+		ArcLoader._switch_to_load_screen()
