@@ -7,6 +7,7 @@ var new_scene: String = ""
 var load_checker = preload("res://addons/arc_loader/load_checker.tscn")
 var current_load_checker: Node2D
 
+var can_load = true
 var fade_in = false
 
 var loading_thread: Thread
@@ -62,7 +63,9 @@ func _scene_ready():
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Fade":
-		if not fade_in:
+		if fade_in:
+			ArcLoader.can_load = true
+		else:
 			current_scene.queue_free()
 			start_loading()
 			animation_player.stop(true)

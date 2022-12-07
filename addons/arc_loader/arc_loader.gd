@@ -1,10 +1,18 @@
 extends Node
 
 
+var can_load = true
+
+
 func _switch_to_load_screen():
 	get_tree().change_scene_to_file("res://addons/arc_loader/loading_screen.tscn")
 
 func change_scene(current_scene: Node, new_scene: String):
+	if not can_load:
+		ArcLoader.log_msg("Couldn't load scene, busy finishing loading previous scene")
+		return
+	can_load = false
+	
 	if current_scene.scene_file_path == new_scene:
 		ArcLoader.log_msg("Cannot load the currently active scene, use get_tree().reload_current_scene() instead")
 		return
