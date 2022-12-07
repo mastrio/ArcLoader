@@ -9,32 +9,52 @@ var current_load_checker: Node2D
 
 var fade_in = false
 
+var loading_thread: Thread
+var loading_mutex: Mutex
+
+var loaded_scene = null
+
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
+func _ready():
+	loading_thread = Thread.new()
+	loading_mutex = Mutex.new()
+
+func _process(_delta):
+	#global_position = get_viewport_rect().position
+	if is_instance_valid(get_viewport().get_camera_2d()):
+		global_position = get_viewport().get_camera_2d().global_position - (get_viewport_rect().size / 2)
+	else:
+		global_position = Vector2.ZERO
+
 func _physics_process(_delta):
 	get_tree().root.move_child(self, get_tree().root.get_node("/root").get_child_count())
+
+func _exit_tree():
+	loading_thread.wait_to_finish()
 
 func start_loading():
 	if not is_instance_valid(current_scene):
 		ArcLoader.log_err("Error loading scene, current_scene is not a valid scene")
 		return
 	
-	await get_tree().create_timer(1).timeout
-	var loading_scene = load(new_scene).instantiate()
+	loading_thread.start(_thread_loading, Thread.PRIORITY_HIGH)
+	var loaded_scene = loading_thread.wait_to_finish()
 	
-	if not is_instance_valid(loading_scene):
-		ArcLoader.log_err("Error loading scene, new_scene is not a valid scene")
+	if not is_instance_valid(loaded_scene):
+		ArcLoader.log_err("Error loading scene, new_scene is not a valid scene or loading thread failed")
 		return
 	
+	await get_tree().create_timer(1).timeout
+	
+	get_tree().root.add_child(loaded_scene)
 	current_load_checker = load_checker.instantiate()
-	
-	loading_scene.add_child(current_load_checker)
 	current_load_checker.connect("scene_loaded", _scene_ready)
-	get_tree().root.add_child(loading_scene)
-	
-	new_scene = ""
-	current_scene = null
+	loaded_scene.add_child(current_load_checker)
+
+func _thread_loading():
+	return load(new_scene).instantiate()
 
 func _scene_ready():
 	animation_player.stop(true)
