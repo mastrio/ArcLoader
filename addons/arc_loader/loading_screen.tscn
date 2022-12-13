@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://addons/arc_loader/loading_screen.gd" id="1_jvn3o"]
 [ext_resource type="Texture2D" uid="uid://d0m71t71ra2jo" path="res://addons/arc_loader/loading_icon.png" id="2_mjxrq"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hbbw"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vd2th"]
 bg_color = Color(0, 0, 0, 0)
 
-[sub_resource type="Animation" id="Animation_epqx1"]
+[sub_resource type="Animation" id="Animation_gowih"]
 resource_name = "Fade"
 length = 1.2
 tracks/0/type = "bezier"
@@ -122,7 +122,7 @@ tracks/9/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_qwl7u"]
+[sub_resource type="Animation" id="Animation_hywck"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -249,7 +249,7 @@ tracks/10/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_8uv0g"]
+[sub_resource type="Animation" id="Animation_s182a"]
 resource_name = "SPIN"
 length = 2.0
 loop_mode = 1
@@ -266,11 +266,11 @@ tracks/0/keys = {
 "values": [0.0, 6.28319]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_axu4l"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k3exd"]
 _data = {
-"Fade": SubResource("Animation_epqx1"),
-"RESET": SubResource("Animation_qwl7u"),
-"SPIN": SubResource("Animation_8uv0g")
+"Fade": SubResource("Animation_gowih"),
+"RESET": SubResource("Animation_hywck"),
+"SPIN": SubResource("Animation_s182a")
 }
 
 [node name="LoadingScreen" type="Panel"]
@@ -280,7 +280,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_5hbbw")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vd2th")
 script = ExtResource("1_jvn3o")
 metadata/_edit_use_anchors_ = true
 
@@ -305,7 +305,7 @@ texture = ExtResource("2_mjxrq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_axu4l")
+"": SubResource("AnimationLibrary_k3exd")
 }
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

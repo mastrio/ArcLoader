@@ -12,3 +12,6 @@ data_*/
 
 # testing stuff
 testgame/
+
+# export
+.export/
