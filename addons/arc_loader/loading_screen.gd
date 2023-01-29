@@ -47,7 +47,7 @@ func start_loading():
 		ArcLoader.log_err("Error loading scene, new_scene is not a valid scene or loading thread failed")
 		return
 	
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.2).timeout
 	
 	get_tree().root.add_child(loaded_scene)
 	current_load_checker = load_checker.instantiate()
