@@ -1,11 +1,13 @@
 extends Panel
 
 
-var current_scene: Node = null
 var new_scene: String = ""
 
 var load_checker = preload("res://addons/arc_loader/load_checker.tscn")
 var current_load_checker: Node2D
+
+var load_icon: PackedScene = preload("res://addons/arc_loader/loading_icon.tscn")
+var icon_instance = null
 
 var can_load = true
 var fade_in = false
@@ -23,7 +25,6 @@ func _ready():
 	loading_mutex = Mutex.new()
 
 func _process(_delta):
-	#global_position = get_viewport_rect().position
 	if is_instance_valid(get_viewport().get_camera_2d()):
 		global_position = get_viewport().get_camera_2d().global_position - (get_viewport_rect().size / 2)
 	else:
@@ -36,9 +37,9 @@ func _exit_tree():
 	loading_thread.wait_to_finish()
 
 func start_loading():
-	if not is_instance_valid(current_scene):
-		ArcLoader.log_err("Error loading scene, current_scene is not a valid scene")
-		return
+	icon_instance = load_icon.instantiate()
+	icon_instance.add_to_group("ArcLoader:LoadingIcon")
+	add_child(icon_instance)
 	
 	loading_thread.start(_thread_loading, Thread.PRIORITY_HIGH)
 	var loaded_scene = loading_thread.wait_to_finish()
@@ -58,7 +59,10 @@ func _thread_loading():
 	return load(new_scene).instantiate()
 
 func _scene_ready():
-	animation_player.stop(true)
+	for child in get_children():
+		if child.is_in_group("ArcLoader:LoadingIcon"):
+			child.queue_free()
+	
 	animation_player.play("Fade")
 
 func _on_animation_player_animation_finished(anim_name):
@@ -66,9 +70,8 @@ func _on_animation_player_animation_finished(anim_name):
 		if fade_in:
 			ArcLoader.can_load = true
 		else:
-			current_scene.queue_free()
+			get_tree().unload_current_scene()
+			#current_scene.queue_free()
 			start_loading()
-			animation_player.stop(true)
-			animation_player.play("SPIN")
 		
 		fade_in = not fade_in
