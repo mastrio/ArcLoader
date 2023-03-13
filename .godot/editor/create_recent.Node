@@ -1,4 +1,6 @@
 AnimationPlayer
+Sprite2D
+Button
 TextureRect
 Camera2D
 MeshInstance3D

@@ -120,6 +120,7 @@ _data = {
 }
 
 [node name="LoadingScreen" type="Panel"]
+process_mode = 3
 visible = false
 anchors_preset = 15
 anchor_right = 1.0

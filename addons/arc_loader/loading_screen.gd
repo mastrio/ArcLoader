@@ -1,6 +1,8 @@
 extends Panel
 
 
+signal finished_loading_scene
+
 var new_scene: String = ""
 
 var load_checker = preload("res://addons/arc_loader/load_checker.tscn")
@@ -11,6 +13,8 @@ var icon_instance = null
 
 var can_load = true
 var fade_in = false
+
+var reloading_scene = false
 
 var loading_thread: Thread
 var loading_mutex: Mutex
@@ -55,6 +59,14 @@ func start_loading():
 	current_load_checker.connect("scene_loaded", _scene_ready)
 	loaded_scene.add_child(current_load_checker)
 
+func start_reloading():
+	icon_instance = load_icon.instantiate()
+	icon_instance.add_to_group("ArcLoader:LoadingIcon")
+	add_child(icon_instance)
+	
+	get_tree().reload_current_scene()
+	_scene_ready()
+
 func _thread_loading():
 	return load(new_scene).instantiate()
 
@@ -69,9 +81,13 @@ func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Fade":
 		if fade_in:
 			ArcLoader.can_load = true
+			emit_signal("finished_loading_scene")
 		else:
-			get_tree().unload_current_scene()
-			#current_scene.queue_free()
-			start_loading()
+			if reloading_scene:
+				start_reloading()
+				reloading_scene = false
+			else:
+				get_tree().unload_current_scene()
+				start_loading()
 		
 		fade_in = not fade_in
