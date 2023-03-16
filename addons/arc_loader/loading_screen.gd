@@ -1,6 +1,7 @@
 extends Panel
 
 
+signal started_loading_scene
 signal finished_loading_scene
 
 var new_scene: String = ""
@@ -64,6 +65,8 @@ func start_reloading():
 	icon_instance.add_to_group("ArcLoader:LoadingIcon")
 	add_child(icon_instance)
 	
+	emit_signal("started_loading_scene")
+	
 	get_tree().reload_current_scene()
 	_scene_ready()
 
@@ -80,8 +83,8 @@ func _scene_ready():
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "Fade":
 		if fade_in:
-			ArcLoader.can_load = true
 			emit_signal("finished_loading_scene")
+			ArcLoader.can_load = true
 		else:
 			if reloading_scene:
 				start_reloading()
