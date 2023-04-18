@@ -25,8 +25,8 @@ func change_scene(new_scene: String, transition_speed: int = 1, loading_icon: St
 	
 	LoadingScreen.new_scene = new_scene
 	LoadingScreen.load_icon = load(loading_icon)
-	LoadingScreen.get_node("AnimationPlayer").speed_scale = transition_speed
-	LoadingScreen.get_node("AnimationPlayer").play_backwards("Fade")
+	LoadingScreen.get_node("ScreenPanel/AnimationPlayer").speed_scale = transition_speed
+	LoadingScreen.get_node("ScreenPanel/AnimationPlayer").play_backwards("Fade")
 
 func reload_current_scene(transition_speed: int = 1, loading_icon: String = "res://addons/arc_loader/loading_icon.tscn"):
 	if not can_load:
@@ -36,8 +36,8 @@ func reload_current_scene(transition_speed: int = 1, loading_icon: String = "res
 	
 	LoadingScreen.reloading_scene = true
 	LoadingScreen.load_icon = load(loading_icon)
-	LoadingScreen.get_node("AnimationPlayer").speed_scale = transition_speed
-	LoadingScreen.get_node("AnimationPlayer").play_backwards("Fade")
+	LoadingScreen.get_node("ScreenPanel/AnimationPlayer").speed_scale = transition_speed
+	LoadingScreen.get_node("ScreenPanel/AnimationPlayer").play_backwards("Fade")
 
 func log_msg(message: String):
 	print("[@|ArcLoader] " + message)

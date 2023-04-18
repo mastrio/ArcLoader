@@ -1,4 +1,4 @@
-extends Panel
+extends CanvasLayer
 
 
 signal started_loading_scene
@@ -22,7 +22,8 @@ var loading_mutex: Mutex
 
 var loaded_scene = null
 
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var screen_panel = $ScreenPanel
+@onready var animation_player: AnimationPlayer = $ScreenPanel/AnimationPlayer
 
 
 func _ready():
@@ -30,10 +31,11 @@ func _ready():
 	loading_mutex = Mutex.new()
 
 func _process(_delta):
+	pass
 	if is_instance_valid(get_viewport().get_camera_2d()):
-		global_position = get_viewport().get_camera_2d().global_position - (get_viewport_rect().size / 2)
+		screen_panel.global_position = get_viewport().get_camera_2d().global_position - (screen_panel.get_viewport_rect().size / 2)
 	else:
-		global_position = Vector2.ZERO
+		screen_panel.global_position = Vector2.ZERO
 
 func _physics_process(_delta):
 	get_tree().root.move_child(self, get_tree().root.get_node("/root").get_child_count())

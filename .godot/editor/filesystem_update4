@@ -1,5 +1,6 @@
-res://addons/arc_loader/loading_icon.tscn
-res://addons/arc_loader/loading_screen.gd
+res://addons/arc_loader/loading_screen.tscn
 res://testgame/test_scene_1.tscn
 res://testgame/test_scene_2.tscn
-res://addons/arc_loader/loading_screen.tscn
+res://addons/arc_loader/loading_icon.tscn
+res://addons/arc_loader/loading_screen.gd
+res://addons/arc_loader/arc_loader.gd

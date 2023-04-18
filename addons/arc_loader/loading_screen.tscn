@@ -119,7 +119,12 @@ _data = {
 "RESET": SubResource("Animation_hywck")
 }
 
-[node name="LoadingScreen" type="Panel"]
+[node name="LoadingScreen" type="CanvasLayer"]
+layer = 128
+follow_viewport_enabled = true
+script = ExtResource("1_jvn3o")
+
+[node name="ScreenPanel" type="Panel" parent="."]
 process_mode = 3
 visible = false
 anchors_preset = 15
@@ -128,12 +133,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_vd2th")
-script = ExtResource("1_jvn3o")
 metadata/_edit_use_anchors_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ScreenPanel"]
 libraries = {
 "": SubResource("AnimationLibrary_k3exd")
 }
 
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="ScreenPanel/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
