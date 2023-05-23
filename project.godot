@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 ArcLoader="*res://addons/arc_loader/arc_loader.gd"
 LoadingScreen="*res://addons/arc_loader/loading_screen.tscn"
 
+[dotnet]
+
+project/assembly_name="ArcLoader"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/arc_loader/plugin.cfg")
